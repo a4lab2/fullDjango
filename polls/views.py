@@ -1,4 +1,5 @@
-from django.http import HttpResponse
+from django.http import HttpResponse,HttpResponseRedirect
+from django.urls import reverse
 from .models import Question
 from .models import Choice
 from django.shortcuts import get_object_or_404, render
@@ -31,7 +32,7 @@ def results(request, question_id):
 def vote(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
     try:
-        selected_choice = question.choice_set.get(pk=request.POST['choice'])
+       selected_choice = question.choice_set.get(pk=request.POST['choice'])
     except (KeyError, Choice.DoesNotExist):
         # Redisplay the question voting form.
         return render(request, 'polls/detail.html', {
